@@ -1,8 +1,10 @@
 const { count } = require('drizzle-orm');
 
 const { getDb } = require('../db/');
-const { Leads, Status } = require("../db/schema");
+const { Leads, Status, FollowUp } = require("../db/schema");
 const { LEADS_NEW_STATUS } = require("../constants/global");
+
+const { GenerateResponse } = require("../helpers/response");
 
 exports.getLeads = async (req, res, next) => {
     const db = getDb();  // Get the initialized db
@@ -50,8 +52,45 @@ exports.updateLeadsStatus = async (req, res) => {
             .set({ fk_ms_status: status }).where({ pk_tr_lead: leadsId });
         
         return res.status(200).send({ message: "Success Update Status" });
-        
+
     } catch (err) {
         return res.status(500).send(err);
+    }
+}
+
+exports.getFollowUp = () => {
+    const db = getDb();
+
+    const { leadsId } = req.params;
+
+    const followUpData = db.select().from(FollowUp).where({ fk_tr_lead: leadsId });
+
+    return res.status(200).send({
+        message: "Success",
+        data: followUpData,
+    })
+}
+
+exports.postFolloUp = async (req, res) => {
+    const db = getDb();
+
+    const { leads_id, follow_up_message, follow_up_result } = req.body;
+
+    try {
+        await db.insert(FollowUp).values({
+            fk_tr_lead: leads_id,
+            follow_up_message: follow_up_message,
+            follow_up_result: follow_up_result,
+            created_by: 0,
+        })
+
+        const result = GenerateResponse(200, "Success", req.body, null);
+
+        return res.status(200).send(result)
+    } catch (err) {
+        console.log(err);
+
+        const result = GenerateResponse(500, "Internal Server Error", null, err)
+        return res.status(500).send(result);
     }
 }
