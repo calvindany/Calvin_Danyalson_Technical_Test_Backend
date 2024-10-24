@@ -1,23 +1,64 @@
-const { count } = require('drizzle-orm');
+const { count, eq } = require('drizzle-orm');
 
 const { getDb } = require('../db/');
 const { Leads, Status, FollowUp } = require("../db/schema");
 const { LEADS_NEW_STATUS } = require("../constants/global");
 
-const { GenerateResponse } = require("../helpers/response");
+const { GenerateResponse, GenerateLeadsMappingData } = require("../helpers/response");
 
 exports.getLeads = async (req, res, next) => {
     const db = getDb();  // Get the initialized db
 
     try {
         const data = 
-            await db.select().from(Leads);
-    
-        const result = GenerateResponse(200, "Success", data, null)
+            await db.select({
+                pk_tr_lead: Leads.pk_tr_lead,
+                client_email: Leads.client_email,
+                client_phone_number: Leads.client_phone_number,
+                follow_up: FollowUp
+            }).from(Leads)
+            .leftJoin(FollowUp, eq(Leads.pk_tr_lead, FollowUp.fk_tr_lead));
+
+        const restructuredData = GenerateLeadsMappingData(data)    
+
+        const result = GenerateResponse(200, "Success", restructuredData, null)
         return res.status(200).send(result)
 
     } catch (err) {
         const result = GenerateResponse(500, "Internal Server Error", null, err)
+        return res.status(500).send(result)
+    }
+}
+
+exports.getLeadsBySales = async (req, res) => {
+    const db = getDb();
+
+    const { salesId } = req.params;
+
+    console.log(salesId)
+    try {
+        const data = 
+            await db.select({
+                pk_tr_lead: Leads.pk_tr_lead,
+                client_email: Leads.client_email,
+                client_phone_number: Leads.client_phone_number,
+                follow_up: {
+                    pk_tr_follow_up: FollowUp.pk_tr_follow_up,
+                    follow_up_message: FollowUp.follow_up_message,
+                    follow_up_result: FollowUp.follow_up_result,
+                    created_at: FollowUp.created_at,
+                }
+            }).from(Leads)
+            .leftJoin(FollowUp, eq(Leads.pk_tr_lead, FollowUp.fk_tr_lead)).where(eq(Leads.assigned, salesId));
+        
+        const restructuredData = GenerateLeadsMappingData(data);
+
+        const result = GenerateResponse(200, "Success", restructuredData, null)
+        return res.status(200).send(result)
+
+    } catch (err) {
+        console.log(err.message);
+        const result = GenerateResponse(500, "Internal Server Error", null, err.message)
         return res.status(500).send(result)
     }
 }
