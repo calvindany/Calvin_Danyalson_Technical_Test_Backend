@@ -13,6 +13,10 @@ const {
     postFollowUp,
 } = require("../controller/LeadsController");
 
+const {
+    createSurveyRequest
+} = require("../controller/SurveyController");
+
 // Master Data
 router.get('/status', getMasterStatus);
 
@@ -22,5 +26,7 @@ router.get('/leads/:salesId', getLeadsBySales);
 router.post('/leads', createLeads);
 router.put('/leads/:leadsId', updateLeadsStatus);
 router.post('/leads/followUp', postFollowUp);
+
+router.post('/survey', createSurveyRequest);
 
 module.exports = router;
