@@ -13,7 +13,7 @@ async function initDb() {
         database: process.env.MYSQL_DATABASE || 'product_galery',
         mode: "default",
     });
-    db = drizzle(connection, { schema, mode: "default" });
+    db = drizzle(connection, { schema, mode: "default", logger: true });
 }
 
 exports.initDb = initDb;

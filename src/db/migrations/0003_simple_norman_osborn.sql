@@ -1,0 +1,1 @@
+ALTER TABLE `tr_follow_up` MODIFY COLUMN `created_at` datetime DEFAULT now();

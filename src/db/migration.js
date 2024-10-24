@@ -71,6 +71,6 @@ export const FollowUp = mysqlTable("tr_follow_up", {
     follow_up_message: text("follow_up_message").notNull(),
     follow_up_result: text("follow_up_result").notNull(),
     created_by: int("created_by").notNull(),
-    created_at: datetime("created_at")
+    created_at: datetime("created_at").default(sql`now()`)
 })
 
