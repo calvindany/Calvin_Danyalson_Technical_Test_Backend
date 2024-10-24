@@ -12,11 +12,10 @@ async function  startServer() {
     await initDb();
     console.log('Database initialized successfully.');
 
-    app.use(urlencoded({ extended: true }));
-    app.use(json());
+    app.use(express.json())
     
     // GET request
-    app.use("/", LeadsController)
+    app.use("/api", LeadsController)
     
     const APP_PORT = process.env.APP_PORT || 3000;
     
