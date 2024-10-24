@@ -1,6 +1,6 @@
 const { getDb } = require('../db/');
 const { Leads } = require("../db/schema");
-
+const { LEADS_NEW_STATUS } = require("../constants/global");
 
 exports.getLeads = async (req, res, next) => {
     const db = getDb();  // Get the initialized db
@@ -19,7 +19,7 @@ exports.createLeads = async (req, res, next) => {
         await db.insert(Leads).values({
             client_email: email,
             client_phone_number: phone_number,
-            fk_ms_status: 1,
+            fk_ms_status: LEADS_NEW_STATUS,
             assigned: 1,
             created_by: 0,
         });
