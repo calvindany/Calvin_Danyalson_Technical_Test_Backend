@@ -11,7 +11,7 @@ export const Internals = mysqlTable('ms_internals', {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
-exports.Roles = mysqlTable("ms_roles", {
+export const Roles = mysqlTable("ms_roles", {
     pk_ms_category: int('pk_ms_role').primaryKey().autoincrement(),
     name: varchar("name", { length: 20 }).notNull(),
     updated_at: int("created_by"),
@@ -56,7 +56,7 @@ export const Leads = mysqlTable("tr_leads", {
 
 
 
-exports.Survey = mysqlTable("tr_survey", {
+export const Survey = mysqlTable("tr_survey", {
     pk_tr_survey: int('pk_tr_survey').primaryKey().autoincrement(),
     fk_tr_lead: int("fk_tr_lead").notNull().references(() => Leads.pk_tr_lead),
     survey_notes: text("survey_notes").notNull(),
