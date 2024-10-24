@@ -12,8 +12,7 @@ const GenerateResponse = (httpStatus, message, data, error) => {
 const GenerateLeadsMappingData = (data) => {
     const restructureData = data.reduce((acc, row) => {
         const leadId = row.pk_tr_lead;
-
-        console.log(leadId)
+        
         if (!acc[leadId]) {
             acc[leadId] = {
                 pk_tr_lead: row.pk_tr_lead,
