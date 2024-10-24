@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const { urlencoded, json } = require("express");
 const { initDb } = require('./db');
-const LeadsController = require("./routes/leads");
+const CustomerServiceRoute = require("./routes/customerService");
+const SalesPersonRoute = require("./routes/salesPerson");
 
 const app = express();
 
@@ -15,7 +16,8 @@ async function  startServer() {
     app.use(express.json())
     
     // GET request
-    app.use("/api", LeadsController)
+    app.use("/api", CustomerServiceRoute)
+    app.use("/api", SalesPersonRoute)
     
     const APP_PORT = process.env.APP_PORT || 3000;
     

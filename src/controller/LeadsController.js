@@ -8,10 +8,18 @@ const { GenerateResponse } = require("../helpers/response");
 
 exports.getLeads = async (req, res, next) => {
     const db = getDb();  // Get the initialized db
-    const data = 
-        await db.select().from(Leads);
 
-    res.status(200).send(data)
+    try {
+        const data = 
+            await db.select().from(Leads);
+    
+        const result = GenerateResponse(200, "Success", data, null)
+        return res.status(200).send(result)
+
+    } catch (err) {
+        const result = GenerateResponse(500, "Internal Server Error", null, err)
+        return res.status(500).send(result)
+    }
 }
 
 exports.createLeads = async (req, res, next) => {
@@ -28,9 +36,11 @@ exports.createLeads = async (req, res, next) => {
             created_by: 0,
         });
 
-        return res.status(200).send({status: "success"})
+        const result = GenerateResponse(200, "Success", req.body, null);
+        return res.status(200).send(result)
     } catch(err) {
-        return res.status(500).send(err)
+        const result = GenerateResponse(500, "Internal Server Error", null, err);
+        return res.status(500).send(result)
     }
 }
 
@@ -45,16 +55,24 @@ exports.updateLeadsStatus = async (req, res) => {
             .from(Status).where({ pk_ms_status: status });
 
         if (data[0].count < 1) {
-            return res.status(404).send({ message: "Status Not Found" });
+            const result = GenerateResponse(404, "Status Not Found", null, null);
+            return res.status(404).send(result);
         }
         
         await db.update(Leads)
             .set({ fk_ms_status: status }).where({ pk_tr_lead: leadsId });
         
-        return res.status(200).send({ message: "Success Update Status" });
+        const constructDataResponse = {
+            leadsId: leadsId,
+            status: status,
+        }
 
+        const result = GenerateResponse(200, "Success Update Status", constructDataResponse, null);
+        return res.status(200).send(result);
+        
     } catch (err) {
-        return res.status(500).send(err);
+        const result = GenerateResponse(500, "Internal Server Error", null, err);
+        return res.status(500).send(result);
     }
 }
 
