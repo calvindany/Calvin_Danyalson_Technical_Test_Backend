@@ -1,5 +1,5 @@
 const { sql } = require('drizzle-orm');
-const { bigint, int, boolean, mysqlTable, serial, text, uniqueIndex, varchar, datetime, mysqlEnum } = require("drizzle-orm/mysql-core");
+const { bigint, int, boolean, mysqlTable, serial, text, uniqueIndex, varchar, datetime, mysqlEnum, date } = require("drizzle-orm/mysql-core");
 
 exports.Internals = mysqlTable('ms_internals', {
     pk_ms_internal: int("pk_ms_internal").primaryKey().autoincrement(),
@@ -63,3 +63,11 @@ exports.Survey = mysqlTable("tr_survey", {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
+exports.FollowUp = mysqlTable("tr_follow_up", {
+    pk_tr_follow_up: int("pk_tr_follow_up").primaryKey().autoincrement(),
+    fk_tr_lead: int("fk_tr_lead").notNull().references(() => Leads.pk_tr_lead),
+    follow_up_message: text("follow_up_message").notNull(),
+    follow_up_result: text("follow_up_result").notNull(),
+    created_by: int("created_by").notNull(),
+    created_at: datetime("created_at")
+})

@@ -1,0 +1,567 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "99eb6f64-f14a-4c56-b16a-27f313fb0947",
+  "prevId": "adc0f02b-8c98-45e9-9d4d-f0faf574c86f",
+  "tables": {
+    "tr_follow_up": {
+      "name": "tr_follow_up",
+      "columns": {
+        "pk_tr_follow_up": {
+          "name": "pk_tr_follow_up",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "fk_tr_lead": {
+          "name": "fk_tr_lead",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "follow_up_message": {
+          "name": "follow_up_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "follow_up_result": {
+          "name": "follow_up_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tr_follow_up_fk_tr_lead_tr_leads_pk_tr_lead_fk": {
+          "name": "tr_follow_up_fk_tr_lead_tr_leads_pk_tr_lead_fk",
+          "tableFrom": "tr_follow_up",
+          "tableTo": "tr_leads",
+          "columnsFrom": [
+            "fk_tr_lead"
+          ],
+          "columnsTo": [
+            "pk_tr_lead"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "tr_follow_up_pk_tr_follow_up": {
+          "name": "tr_follow_up_pk_tr_follow_up",
+          "columns": [
+            "pk_tr_follow_up"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ms_internals": {
+      "name": "ms_internals",
+      "columns": {
+        "pk_ms_internal": {
+          "name": "pk_ms_internal",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fk_ms_role": {
+          "name": "fk_ms_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "ms_internals_pk_ms_internal": {
+          "name": "ms_internals_pk_ms_internal",
+          "columns": [
+            "pk_ms_internal"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "ms_internals_email_unique": {
+          "name": "ms_internals_email_unique",
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "tr_leads": {
+      "name": "tr_leads",
+      "columns": {
+        "pk_tr_lead": {
+          "name": "pk_tr_lead",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "client_email": {
+          "name": "client_email",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "client_phone_number": {
+          "name": "client_phone_number",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fk_ms_status": {
+          "name": "fk_ms_status",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "assigned": {
+          "name": "assigned",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "excluded_sales_person": {
+          "name": "excluded_sales_person",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tr_leads_fk_ms_status_ms_status_pk_ms_status_fk": {
+          "name": "tr_leads_fk_ms_status_ms_status_pk_ms_status_fk",
+          "tableFrom": "tr_leads",
+          "tableTo": "ms_status",
+          "columnsFrom": [
+            "fk_ms_status"
+          ],
+          "columnsTo": [
+            "pk_ms_status"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "tr_leads_assigned_ms_internals_pk_ms_internal_fk": {
+          "name": "tr_leads_assigned_ms_internals_pk_ms_internal_fk",
+          "tableFrom": "tr_leads",
+          "tableTo": "ms_internals",
+          "columnsFrom": [
+            "assigned"
+          ],
+          "columnsTo": [
+            "pk_ms_internal"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "tr_leads_pk_tr_lead": {
+          "name": "tr_leads_pk_tr_lead",
+          "columns": [
+            "pk_tr_lead"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "tr_logs_suspended": {
+      "name": "tr_logs_suspended",
+      "columns": {
+        "pk_tr_logs_suspended": {
+          "name": "pk_tr_logs_suspended",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "fk_ms_internal": {
+          "name": "fk_ms_internal",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tr_logs_suspended_fk_ms_internal_ms_internals_pk_ms_internal_fk": {
+          "name": "tr_logs_suspended_fk_ms_internal_ms_internals_pk_ms_internal_fk",
+          "tableFrom": "tr_logs_suspended",
+          "tableTo": "ms_internals",
+          "columnsFrom": [
+            "fk_ms_internal"
+          ],
+          "columnsTo": [
+            "pk_ms_internal"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "tr_logs_suspended_pk_tr_logs_suspended": {
+          "name": "tr_logs_suspended_pk_tr_logs_suspended",
+          "columns": [
+            "pk_tr_logs_suspended"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ms_roles": {
+      "name": "ms_roles",
+      "columns": {
+        "pk_ms_role": {
+          "name": "pk_ms_role",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "ms_roles_pk_ms_role": {
+          "name": "ms_roles_pk_ms_role",
+          "columns": [
+            "pk_ms_role"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ms_status": {
+      "name": "ms_status",
+      "columns": {
+        "pk_ms_status": {
+          "name": "pk_ms_status",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "status_name": {
+          "name": "status_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "ms_status_pk_ms_status": {
+          "name": "ms_status_pk_ms_status",
+          "columns": [
+            "pk_ms_status"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "tr_survey": {
+      "name": "tr_survey",
+      "columns": {
+        "pk_tr_survey": {
+          "name": "pk_tr_survey",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "fk_tr_lead": {
+          "name": "fk_tr_lead",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "survey_notes": {
+          "name": "survey_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('On Review','Rejected','Accepted')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'On Review'"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tr_survey_fk_tr_lead_tr_leads_pk_tr_lead_fk": {
+          "name": "tr_survey_fk_tr_lead_tr_leads_pk_tr_lead_fk",
+          "tableFrom": "tr_survey",
+          "tableTo": "tr_leads",
+          "columnsFrom": [
+            "fk_tr_lead"
+          ],
+          "columnsTo": [
+            "pk_tr_lead"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "tr_survey_pk_tr_survey": {
+          "name": "tr_survey_pk_tr_survey",
+          "columns": [
+            "pk_tr_survey"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ms_users": {
+      "name": "ms_users",
+      "columns": {
+        "pk_ms_user": {
+          "name": "pk_ms_user",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "ms_users_pk_ms_user": {
+          "name": "ms_users_pk_ms_user",
+          "columns": [
+            "pk_ms_user"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}

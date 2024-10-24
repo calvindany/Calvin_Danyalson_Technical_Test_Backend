@@ -65,3 +65,12 @@ export const Survey = mysqlTable("tr_survey", {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
+export const FollowUp = mysqlTable("tr_follow_up", {
+    pk_tr_follow_up: int("pk_tr_follow_up").primaryKey().autoincrement(),
+    fk_tr_lead: int("fk_tr_lead").notNull().references(() => Leads.pk_tr_lead),
+    follow_up_message: text("follow_up_message").notNull(),
+    follow_up_result: text("follow_up_result").notNull(),
+    created_by: int("created_by").notNull(),
+    created_at: datetime("created_at")
+})
+

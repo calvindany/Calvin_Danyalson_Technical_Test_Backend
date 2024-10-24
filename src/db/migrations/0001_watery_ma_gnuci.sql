@@ -1,0 +1,1 @@
+ALTER TABLE `tr_leads` MODIFY COLUMN `excluded_sales_person` text;
