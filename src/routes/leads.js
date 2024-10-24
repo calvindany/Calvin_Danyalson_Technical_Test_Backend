@@ -3,10 +3,12 @@ const router = express.Router();
 
 const {
     getLeads,
-    createLeads
+    createLeads,
+    updateLeadsStatus
 } = require("../controller/LeadsController");
 
 router.get('/leads', getLeads);
 router.post('/leads', createLeads);
+router.put('/leads/:leadsId', updateLeadsStatus);
 
 module.exports = router;
