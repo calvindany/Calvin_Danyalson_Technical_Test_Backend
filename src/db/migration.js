@@ -1,7 +1,7 @@
 const { sql } = require('drizzle-orm');
 const { bigint, int, boolean, mysqlTable, serial, text, uniqueIndex, varchar, datetime, mysqlEnum } = require("drizzle-orm/mysql-core");
 
-exports.Internals = mysqlTable('ms_internals', {
+export const Internals = mysqlTable('ms_internals', {
     pk_ms_internal: int("pk_ms_internal").primaryKey().autoincrement(),
     fullname: varchar('full_name', {length: 255}).notNull(),
     username: varchar('email', {length: 30}).unique().notNull(),
@@ -18,7 +18,7 @@ exports.Roles = mysqlTable("ms_roles", {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
-exports.Users = mysqlTable("ms_users", {
+export const Users = mysqlTable("ms_users", {
     pk_ms_user: int('pk_ms_user').primaryKey().autoincrement(),
     full_name: varchar("full_name", {length: 255}).notNull(),
     email: varchar("email", {length: 150}).notNull(),
@@ -27,7 +27,7 @@ exports.Users = mysqlTable("ms_users", {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
-exports.LogsSuspended = mysqlTable("tr_logs_suspended", {
+export const LogsSuspended = mysqlTable("tr_logs_suspended", {
     pk_tr_logs_suspended: int('pk_tr_logs_suspended').primaryKey().autoincrement(),
     fk_ms_internal: int("fk_ms_internal").notNull().references(() => Internals.pk_ms_internal),
     start_date: datetime("start_date").notNull(),
@@ -36,14 +36,14 @@ exports.LogsSuspended = mysqlTable("tr_logs_suspended", {
     created_at: datetime("created_at").default(sql`now()`),
 })
 
-exports.Status = mysqlTable("ms_status", {
+export const Status = mysqlTable("ms_status", {
     pk_ms_status: int('pk_ms_status').primaryKey().autoincrement(),
     status_name: varchar("status_name", {length: 100}).notNull(),
     created_by: int("created_by").notNull(),
     created_at: datetime("created_at").default(sql`now()`),
 })
 
-exports.Leads = mysqlTable("tr_leads", {
+export const Leads = mysqlTable("tr_leads", {
     pk_tr_lead: int('pk_tr_lead').primaryKey().autoincrement(),
     client_email: varchar("client_email", { length: 150 }).notNull(),
     client_phone_number: varchar("client_phone_number", { length: 25 }).notNull(),
@@ -53,6 +53,8 @@ exports.Leads = mysqlTable("tr_leads", {
     created_by: int("created_by").notNull(),
     created_at: datetime("created_at").default(sql`now()`),
 })
+
+
 
 exports.Survey = mysqlTable("tr_survey", {
     pk_tr_survey: int('pk_tr_survey').primaryKey().autoincrement(),
