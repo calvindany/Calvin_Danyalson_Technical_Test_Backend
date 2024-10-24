@@ -5,6 +5,7 @@ const { urlencoded, json } = require("express");
 const { initDb } = require('./db');
 const CustomerServiceRoute = require("./routes/customerService");
 const SalesPersonRoute = require("./routes/salesPerson");
+const Master = require("./routes/master");
 
 const app = express();
 
@@ -18,6 +19,7 @@ async function  startServer() {
     // GET request
     app.use("/api", CustomerServiceRoute)
     app.use("/api", SalesPersonRoute)
+    app.use("/api", Master)
     
     const APP_PORT = process.env.APP_PORT || 3000;
     
