@@ -5,13 +5,13 @@ const {
     getLeads,
     createLeads,
     updateLeadsStatus,
-    postFolloUp
+    postFollowUp
 } = require("../controller/LeadsController");
 
 router.get('/leads', getLeads);
 router.post('/leads', createLeads);
 router.put('/leads/:leadsId', updateLeadsStatus);
 
-router.post('/leads/followUp', postFolloUp);
+router.post('/leads/followUp', postFollowUp);
 
 module.exports = router;

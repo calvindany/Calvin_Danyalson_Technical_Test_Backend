@@ -71,12 +71,20 @@ exports.getFollowUp = () => {
     })
 }
 
-exports.postFolloUp = async (req, res) => {
+exports.postFollowUp = async (req, res) => {
     const db = getDb();
 
     const { leads_id, follow_up_message, follow_up_result } = req.body;
 
     try {
+        const data = await db.select({ count: count() })
+        .from(Leads).where({ pk_tr_lead: leads_id });
+
+        if (data[0].count < 1) {
+            const result = GenerateResponse(404, "Leads Not Found", null, null)
+            return res.status(404).send(result);
+        }
+        
         await db.insert(FollowUp).values({
             fk_tr_lead: leads_id,
             follow_up_message: follow_up_message,
