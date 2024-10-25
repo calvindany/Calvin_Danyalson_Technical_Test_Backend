@@ -57,7 +57,9 @@ exports.Leads = mysqlTable("tr_leads", {
 exports.Survey = mysqlTable("tr_survey", {
     pk_tr_survey: int('pk_tr_survey').primaryKey().autoincrement(),
     fk_tr_lead: int("fk_tr_lead").notNull().references(() => Leads.pk_tr_lead),
-    survey_notes: text("survey_notes").notNull(),
+    survey_request_notes: text("survey_request_notes").notNull(),
+    survey_result_notes: text("survey_result_notes").notNull(),
+    image_path: text("image_path").notNull(),
     status: mysqlEnum(["On Review", "Rejected", "Accepted"]).notNull().default("On Review"),
     created_by: int("created_by").notNull(),
     created_at: datetime("created_at").default(sql`now()`),

@@ -29,6 +29,13 @@
       "when": 1729809623528,
       "tag": "0003_simple_norman_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1729815890614,
+      "tag": "0004_foamy_giant_man",
+      "breakpoints": true
     }
   ]
 }
