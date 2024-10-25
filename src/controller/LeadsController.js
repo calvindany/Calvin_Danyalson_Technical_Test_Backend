@@ -3,6 +3,7 @@ const { count, eq, sql } = require('drizzle-orm');
 const { getDb } = require('../db/');
 const { Leads, Status, FollowUp } = require("../db/schema");
 const constant = require("../constants/global");
+const service = require("../service/UserService");
 
 const { GenerateResponse, GenerateLeadsMappingData } = require("../helpers/response");
 
@@ -102,16 +103,22 @@ exports.updateLeadsStatus = async (req, res) => {
         await db.update(Leads)
             .set({ fk_ms_status: status }).where({ pk_tr_lead: leadsId });
         
+        const leads = await db.select().from(Leads).where({ pk_tr_lead: leadsId });
+
         const constructDataResponse = {
             leadsId: leadsId,
             status: status,
+        }
+
+        if (status == constant.LEADS_DEAL_STATUS) {
+            constructDataResponse.notes = await service.CreateUserService(leads[0].client_email, leads[0].client_phone_number)
         }
 
         const result = GenerateResponse(200, "Success Update Status", constructDataResponse, null);
         return res.status(200).send(result);
         
     } catch (err) {
-        const result = GenerateResponse(500, "Internal Server Error", null, err);
+        const result = GenerateResponse(500, "Internal Server Error", null, err.message);
         return res.status(500).send(result);
     }
 }
