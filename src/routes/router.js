@@ -24,7 +24,8 @@ const {
 } = require("../controller/SurveyController");
 
 const {
-    putSuspendSales
+    putSuspendSales,
+    getMasterInternals
 } = require("../controller/InternalsController");
 
 
@@ -58,6 +59,9 @@ router.post('/survey', createSurveyRequest);
 router.put('/survey/status', putApproveDisapproveRequest)
 router.put('/survey/complete', upload.single('image'), putCompleteSurveyRequest)
 
-router.put('/sales/suspend', putSuspendSales)
+
+router.get('/internals', getMasterInternals);
+
+router.put('/sales/suspend', putSuspendSales);
 
 module.exports = router;

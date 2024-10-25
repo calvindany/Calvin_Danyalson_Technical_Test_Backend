@@ -2,10 +2,42 @@ const { and, gte, lte, eq, between } = require('drizzle-orm');
 const moment = require('moment');
 
 const { getDb } = require('../db/');
-const { LogsSuspended } = require("../db/schema");
+const { LogsSuspended, Internals } = require("../db/schema");
 const constant = require("../constants/global");
 const service = require("../service/UserService");
 const { GenerateResponse } = require('../helpers/response');
+
+
+exports.getMasterInternals = async (req, res) => {
+    const db = getDb();
+
+    const { role, id, email } = req.query;
+
+    const filter = [];
+
+    if(role) {
+        filter.push({ fk_ms_role: role });
+    }
+
+    if(id) {
+        filter.push({ pk_ms_internal: id });
+    }
+
+    if (email) {
+        filter.push({ email: email });
+    }
+
+    try {
+        const data = await db.select().from(Internals).where(and(...filter))
+
+        const result = GenerateResponse(200, "Success Get Internals Data", data, null);
+        return res.status(200).send(result);
+    } catch (err) {
+        const result = GenerateResponse(500, "Internal Server Error", null, err.message);
+        return res.status(500).send(result);
+    }
+
+}
 
 exports.putSuspendSales = async (req, res) => {
     const db = getDb();
