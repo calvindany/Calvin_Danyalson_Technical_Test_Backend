@@ -14,6 +14,7 @@ const {
     updateLeadsStatus,
     putUpdateFollowUp,
     postFollowUp,
+    putUpdateLeadsAssignee,
 } = require("../controller/LeadsController");
 
 const {
@@ -43,6 +44,7 @@ router.get('/status', getMasterStatus);
 router.get('/leads', getLeads);
 router.get('/leads/:salesId', getLeadsBySales);
 router.post('/leads', createLeads);
+router.put('/leads/assignee', putUpdateLeadsAssignee);
 router.put('/leads/status/:leadsId', updateLeadsStatus);
 
 router.post('/leads/followUp', postFollowUp);

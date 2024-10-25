@@ -6,6 +6,7 @@ const constant = require("../constants/global");
 const service = require("../service/UserService");
 
 const { GenerateResponse, GenerateLeadsMappingData } = require("../helpers/response");
+const { assign } = require('nodemailer/lib/shared');
 
 exports.getLeads = async (req, res, next) => {
     const db = getDb();  // Get the initialized db
@@ -117,6 +118,35 @@ exports.updateLeadsStatus = async (req, res) => {
         const result = GenerateResponse(200, "Success Update Status", constructDataResponse, null);
         return res.status(200).send(result);
         
+    } catch (err) {
+        const result = GenerateResponse(500, "Internal Server Error", null, err.message);
+        return res.status(500).send(result);
+    }
+}
+
+exports.putUpdateLeadsAssignee = async (req, res) => {
+    const db = getDb();
+
+    const { leads_id, sales_id } = req.body;
+
+    try {
+
+        const leads = await db.select().from(Leads).where({ pk_tr_lead: leads_id });
+
+        if(leads.length < 1) {
+            const result = GenerateResponse(404, "Status Not Found", null, null);
+            return res.status(404).send(result);
+        }
+
+        if(leads[0].assigned == sales_id) {
+            const result = GenerateResponse(400, "The Leads already assigned to this sales", req.body, null);
+            return res.status(400).send(result);
+        }
+
+        await db.update(Leads).set({ assigned: sales_id }).where({ pk_tr_lead: leads_id });
+
+        const result = GenerateResponse(200, `Success Update Leads Assignee to ${ sales_id }`, req.body, null);
+        return res.status(200).send(result);
     } catch (err) {
         const result = GenerateResponse(500, "Internal Server Error", null, err.message);
         return res.status(500).send(result);
