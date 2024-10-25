@@ -1,8 +1,8 @@
-const { count, eq } = require('drizzle-orm');
+const { count, eq, sql } = require('drizzle-orm');
 
 const { getDb } = require('../db/');
 const { Leads, Status, FollowUp } = require("../db/schema");
-const { LEADS_NEW_STATUS } = require("../constants/global");
+const constant = require("../constants/global");
 
 const { GenerateResponse, GenerateLeadsMappingData } = require("../helpers/response");
 
@@ -35,7 +35,6 @@ exports.getLeadsBySales = async (req, res) => {
 
     const { salesId } = req.params;
 
-    console.log(salesId)
     try {
         const data = 
             await db.select({
@@ -72,7 +71,7 @@ exports.createLeads = async (req, res, next) => {
         await db.insert(Leads).values({
             client_email: email,
             client_phone_number: phone_number,
-            fk_ms_status: LEADS_NEW_STATUS,
+            fk_ms_status: constant.LEADS_NEW_STATUS,
             assigned: 1,
             created_by: 0,
         });
@@ -159,5 +158,23 @@ exports.postFollowUp = async (req, res) => {
 
         const result = GenerateResponse(500, "Internal Server Error", null, err)
         return res.status(500).send(result);
+    }
+}
+
+exports.putUpdateFollowUp = async (req, res) => {
+    const db = getDb();
+
+    const { leads_id, follow_up_id, follow_up_message, follow_up_result } = req.body;
+
+    try {
+        await db.update(FollowUp)
+            .set({ follow_up_message: follow_up_message, follow_up_result: follow_up_result })
+            .where(sql`${FollowUp.fk_tr_lead} = ${leads_id} AND ${FollowUp.pk_tr_follow_up} = ${follow_up_id}`);
+
+        const result = GenerateResponse(200, "Success", req.body, null);
+        return res.status(200).send(result);
+    } catch (err) {
+        const result = GenerateResponse(500, "Internal Server Error", null, err.message);
+        return res.status(500).send(result)
     }
 }
