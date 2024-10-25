@@ -13,3 +13,5 @@ INSERT INTO db_solar_kita_technical_test.ms_status (status_name,created_by)
 	VALUES ('Final Follow Up',0);
 INSERT INTO db_solar_kita_technical_test.ms_status (status_name,created_by)
 	VALUES ('Deal',0);
+INSERT INTO db_solar_kita_technical_test.ms_status (status_name,created_by)
+	VALUES ('No Deal',0);
