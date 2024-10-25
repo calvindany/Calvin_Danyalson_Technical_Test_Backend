@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 
 const { getDb } = require('../db/');
-const { Users } = require("../db/schema");
+const { Users, SystemParameter } = require("../db/schema");
 const constant = require("../constants/global");
 
 const CreateUserService = async ( email, phone_number ) => {
@@ -80,6 +80,50 @@ const SendEmail = async ( emailTo, title, body ) => {
     }
 }
 
+const AssignSalesWithLeads = async (sales) => {
+    const db = getDb();
+
+    try {
+        if (sales.length < 1) {
+            return { message: "Sales is empty" }
+        }
+
+        const system_params = await db.select().from(SystemParameter).where({ pk_system_parameter: constant.ROUND_ROBIN_INDEX_SP_ID });
+
+        if(system_params.length < 1) {
+            throw new Error("System parameter with id: " + constant.ROUND_ROBIN_INDEX_SP_ID + "not found")
+        }
+
+        let currentIndex = system_params[0].value;
+        let assigned = {};
+        let limitProcess = 10;
+        let countProcess = 0;
+
+        while(countProcess < limitProcess) {
+            countProcess++;
+            
+            if(sales[currentIndex]) {
+                assigned = sales[currentIndex];
+                currentIndex++;
+                break;
+            } else {
+                currentIndex = 0;
+            }
+            
+            
+        }
+
+        await db.update(SystemParameter).set({ value: currentIndex })
+            .where({ pk_system_parameter:  system_params[0].pk_system_parameter })
+
+        return assigned
+
+    } catch (err) {
+        throw err;
+    }
+}
+
 module.exports = {
     CreateUserService,
+    AssignSalesWithLeads
 }
