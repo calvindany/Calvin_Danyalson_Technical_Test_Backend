@@ -1,0 +1,1 @@
+ALTER TABLE `ms_users` ADD `password` text NOT NULL;

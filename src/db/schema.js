@@ -23,6 +23,7 @@ exports.Users = mysqlTable("ms_users", {
     full_name: varchar("full_name", {length: 255}).notNull(),
     email: varchar("email", {length: 150}).notNull(),
     phone_number: varchar("phone_number", { length: 25 }).notNull(),
+    password: text("password").notNull(),
     created_by: int("created_by").notNull(),
     created_at: datetime("created_at").default(sql`now()`),
 })
