@@ -5,7 +5,9 @@ const LEADS_SURVEY_REJECTED_STATUS = 4
 const LEADS_SURVEY_COMPLETE_STATUS = 5
 const LEADS_FINAL_FOLLOW_UP_STATUS = 6
 
-const SURVEY_STATUS =["On Review", "Accepted", "Rejected"]
+const SURVEY_STATUS =["On Review", "Accepted", "Rejected", "Completed"]
+
+const FOLLOW_UP_MESSAGE_FOR_FINAL_PROPOSAL = "Follow Up Final Proposal"
 
 const UPLOADS_FOLDER_PATH_PREFIX = "uploads/"
 
@@ -17,7 +19,8 @@ module.exports = {
     LEADS_SURVEY_COMPLETE_STATUS,
     LEADS_FINAL_FOLLOW_UP_STATUS,
     SURVEY_STATUS,
-    UPLOADS_FOLDER_PATH_PREFIX
+    UPLOADS_FOLDER_PATH_PREFIX,
+    FOLLOW_UP_MESSAGE_FOR_FINAL_PROPOSAL
 }
 
 

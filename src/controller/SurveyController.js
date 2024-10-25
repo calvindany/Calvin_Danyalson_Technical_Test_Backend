@@ -1,8 +1,8 @@
 const { count, eq } = require('drizzle-orm');
 
 const { getDb } = require('../db/');
-const { Leads, Survey } = require("../db/schema");
-const { SURVEY_STATUS, LEADS_SURVEY_REQUEST_STATUS, UPLOADS_FOLDER_PATH_PREFIX, LEADS_SURVEY_COMPLETE_STATUS } = require("../constants/global");
+const { Leads, Survey, FollowUp } = require("../db/schema");
+const constant = require("../constants/global");
 const { GenerateResponse } = require('../helpers/response');
 
 exports.createSurveyRequest = async (req, res) => {
@@ -20,14 +20,14 @@ exports.createSurveyRequest = async (req, res) => {
         }
 
         await db.update(Leads)
-            .set({ fk_ms_status: LEADS_SURVEY_REQUEST_STATUS }).where({ pk_tr_lead: leads_id });
+            .set({ fk_ms_status: constant.LEADS_SURVEY_REQUEST_STATUS }).where({ pk_tr_lead: leads_id });
 
         await db.insert(Survey).values({
             fk_tr_lead: leads_id,
             survey_request_notes: survey_request_notes,
             survey_result_notes: "",
             image_path: "",
-            status: SURVEY_STATUS[0],
+            status: constant.SURVEY_STATUS[0],
             created_by: 0,
         })
 
@@ -48,7 +48,7 @@ exports.putApproveDisapproveRequest = async (req, res) => {
 
     try {
 
-        if(!SURVEY_STATUS.includes(status)) {
+        if(!constant.SURVEY_STATUS.includes(status)) {
             const result = GenerateResponse(404, "Status Not Found", null, null);
             return res.status(404).send(result);
         }
@@ -76,13 +76,40 @@ exports.putCompleteSurveyRequest = async (req, res) => {
             return res.status(400).send(result);
         }
         
-        await db.update(Survey)
-            .set({ survey_result_notes: survey_result_notes, image_path: UPLOADS_FOLDER_PATH_PREFIX + filename })
+        const existedSurveyData = await db.select().from(Survey).where({ pk_tr_survey: survey_id });
         
+        if(existedSurveyData[0].status == constant.SURVEY_STATUS[3]) {
+            const result = GenerateResponse(200, "Survey has already been completed", null, null)
+            return res.status(200).send(result);
+        }
+
+        if(existedSurveyData[0].status == constant.SURVEY_STATUS[2]) {
+            const result = GenerateResponse(200, "Survey is rejected, cannot be completed", null, null)
+            return res.status(200).send(result);
+        }
+        
+        // Update survey result notes, dan image path
+        await db.update(Survey)
+            .set({ 
+                survey_result_notes: survey_result_notes, 
+                image_path: constant.UPLOADS_FOLDER_PATH_PREFIX + filename, 
+                status: constant.SURVEY_STATUS[3] })
+            .where({ pk_tr_survey: survey_id })
+        
+        // Update leads status to survey complete status
         const leads = await db.select({ fk_tr_lead: Survey.fk_tr_lead }).from(Survey).where({ pk_tr_survey: survey_id });
+        console.log(leads);
         await db.update(Leads)
-            .set({ fk_ms_status: LEADS_SURVEY_COMPLETE_STATUS }).where({ pk_tr_lead: leads.fk_tr_lead });
-            
+            .set({ fk_ms_status: constant.LEADS_SURVEY_COMPLETE_STATUS }).where({ pk_tr_lead: leads[0].fk_tr_lead });
+        
+        // Add new follow up data for related information with constant follow up message as "Follow up final proposal"
+        await db.insert(FollowUp).values({
+            fk_tr_lead: leads[0].fk_tr_lead,
+            follow_up_message: constant.FOLLOW_UP_MESSAGE_FOR_FINAL_PROPOSAL,
+            follow_up_result: "",
+            created_by:  0
+        });
+
         const result = GenerateResponse(200, "Survey Completed", req.body, null);
         return res.status(200).send(result);
     } catch (err) {
