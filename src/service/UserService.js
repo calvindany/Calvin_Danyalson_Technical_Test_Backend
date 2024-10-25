@@ -55,7 +55,7 @@ const GenerateRandomPassword = ( passwordLength ) => {
     return password;
 }
 
-const SendEmail = async ( emailTo, body ) => {
+const SendEmail = async ( emailTo, title, body ) => {
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
@@ -68,10 +68,10 @@ const SendEmail = async ( emailTo, body ) => {
     try {
         const info = await transporter.sendMail({
           from: process.env.EMAIL_USER,
-          to: 'calvindanyalson@gmail.com',    
-          subject: 'Subject Email Anda',   
+          to: emailTo,    
+          subject: title,   
           text: body,  
-          html: '<b>Isi email dalam format HTML</b>'
+          html: body
         });
     
         console.log('Email berhasil dikirim:', info.messageId);
