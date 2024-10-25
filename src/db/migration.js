@@ -78,3 +78,11 @@ export const FollowUp = mysqlTable("tr_follow_up", {
     created_at: datetime("created_at").default(sql`now()`)
 })
 
+export const SystemParameter = mysqlTable("system_parameter", {
+    pk_system_parameter: int("pk_system_parameter").primaryKey().autoincrement(),
+    system_parameter: varchar("system_parameter", {length: 100}).notNull(),
+    value: text("value").notNull(),
+    descsription: text("description"),
+    created_by: int("created_by"),
+    created_at: datetime("created_at").default(sql`now()`),
+})
