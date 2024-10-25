@@ -6,13 +6,14 @@ export const Internals = mysqlTable('ms_internals', {
     fullname: varchar('full_name', {length: 255}).notNull(),
     username: varchar('email', {length: 30}).unique().notNull(),
     phone_number: varchar("phone_number", {length: 25}).notNull(),
+    fk_ms_role: int("fk_ms_role").notNull().references(() => Roles.pk_ms_role),
     password: text("fk_ms_role").notNull(),
     created_by: int("created_by").notNull(),
     created_at: datetime("created_at").default(sql`now()`),
 })
 
 export const Roles = mysqlTable("ms_roles", {
-    pk_ms_category: int('pk_ms_role').primaryKey().autoincrement(),
+    pk_ms_role: int('pk_ms_role').primaryKey().autoincrement(),
     name: varchar("name", { length: 20 }).notNull(),
     updated_at: int("created_by"),
     created_at: datetime("created_at").default(sql`now()`),
