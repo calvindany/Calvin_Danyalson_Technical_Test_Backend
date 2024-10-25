@@ -1,0 +1,592 @@
+{
+	"info": {
+		"_postman_id": "485cdc05-7456-4183-b47e-ef02327746d2",
+		"name": "Solar Kita App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "31304667"
+	},
+	"item": [
+		{
+			"name": "Super Admin",
+			"item": [
+				{
+					"name": "Get Master Internals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{solar_kita}}/internals?role=3",
+							"host": [
+								"{{solar_kita}}"
+							],
+							"path": [
+								"internals"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Master Super Admin",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{solar_kita}}/internals?role=1",
+									"host": [
+										"{{solar_kita}}"
+									],
+									"path": [
+										"internals"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Get Internals Data\",\r\n    \"data\": [\r\n        {\r\n            \"pk_ms_internal\": 1,\r\n            \"fullname\": \"Admin\",\r\n            \"username\": \"admin@mail.com\",\r\n            \"phone_number\": \"0982910199\",\r\n            \"fk_ms_role\": 1,\r\n            \"password\": \"1\",\r\n            \"created_by\": 0,\r\n            \"created_at\": \"2024-10-24T21:45:59.000Z\"\r\n        }\r\n    ],\r\n    \"error\": null\r\n}"
+						},
+						{
+							"name": "Get Master Sales",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{solar_kita}}/internals?role=3",
+									"host": [
+										"{{solar_kita}}"
+									],
+									"path": [
+										"internals"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Get Internals Data\",\r\n    \"data\": [\r\n        {\r\n            \"pk_ms_internal\": 3,\r\n            \"fullname\": \"Sales Person 1\",\r\n            \"username\": \"sales1@mail.com\",\r\n            \"phone_number\": \"0982910199\",\r\n            \"fk_ms_role\": 3,\r\n            \"password\": \"3\",\r\n            \"created_by\": 0,\r\n            \"created_at\": \"2024-10-24T21:45:59.000Z\"\r\n        },\r\n        {\r\n            \"pk_ms_internal\": 4,\r\n            \"fullname\": \"Sales Person 2\",\r\n            \"username\": \"sales2@mail.com\",\r\n            \"phone_number\": \"0982910199\",\r\n            \"fk_ms_role\": 3,\r\n            \"password\": \"3\",\r\n            \"created_by\": 0,\r\n            \"created_at\": \"2024-10-24T21:45:59.000Z\"\r\n        }\r\n    ],\r\n    \"error\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Leads Assignee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"leads_id\": 2,\r\n    \"sales_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/leads/assignee"
+					},
+					"response": [
+						{
+							"name": "Jika leads di assign pada sales yang berbeda",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"leads_id\": 1,\r\n    \"sales_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{solar_kita}}/leads/assignee"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Update Leads Assignee to 2\",\r\n    \"data\": {\r\n        \"leads_id\": 2,\r\n        \"sales_id\": 2\r\n    },\r\n    \"error\": null\r\n}"
+						},
+						{
+							"name": "Jika leads di assign pada sales yang sama",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"leads_id\": 1,\r\n    \"sales_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{solar_kita}}/leads/assignee"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 400,\r\n    \"message\": \"The Leads already assigned to this sales\",\r\n    \"data\": {\r\n        \"leads_id\": 2,\r\n        \"sales_id\": 4\r\n    },\r\n    \"error\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Suspend Sales",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sales_id\": 2,\r\n    \"start_date\": \"2024-10-24 23:33:15\",\r\n    \"end_date\": \"2024-11-24 23:33:15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/sales/suspend"
+					},
+					"response": [
+						{
+							"name": "Suspend Sales",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sales_id\": 2,\r\n    \"start_date\": \"2024-10-24 23:33:15\",\r\n    \"end_date\": \"2024-11-24 23:33:15\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{solar_kita}}/sales/suspend"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Sales 2 will be suspended on 2024-10-24 23:33:15 - 2024-11-24 23:33:15\",\r\n    \"data\": {\r\n        \"sales_id\": 2,\r\n        \"start_date\": \"2024-10-24 23:33:15\",\r\n        \"end_date\": \"2024-11-24 23:33:15\"\r\n    },\r\n    \"error\": null\r\n}"
+						},
+						{
+							"name": "Jika sales sudah dalam keadaan suspended",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sales_id\": 2,\r\n    \"start_date\": \"2024-10-24 23:33:15\",\r\n    \"end_date\": \"2024-11-24 23:33:15\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{solar_kita}}/sales/suspend"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 400,\r\n    \"message\": \"Sales 2 are still suspended from Thu Oct 24 2024 23:33:15 GMT+0700 (Western Indonesia Time) - Sun Nov 24 2024 23:33:15 GMT+0700 (Western Indonesia Time)\",\r\n    \"data\": {\r\n        \"pk_tr_logs_suspended\": 18,\r\n        \"fk_ms_internal\": 2,\r\n        \"start_date\": \"2024-10-24T16:33:15.000Z\",\r\n        \"end_date\": \"2024-11-24T16:33:15.000Z\",\r\n        \"created_by\": 0,\r\n        \"created_at\": \"2024-10-25T22:36:56.000Z\"\r\n    },\r\n    \"error\": null\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer Service",
+			"item": [
+				{
+					"name": "Get Leads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{solar_kita}}/leads"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Leads",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@mail.com\",\r\n    \"phone_number\": \"08192819188\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/leads"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Person",
+			"item": [
+				{
+					"name": "Get Leads By Sales",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{solar_kita}}/leads/:salesId",
+							"host": [
+								"{{solar_kita}}"
+							],
+							"path": [
+								"leads",
+								":salesId"
+							],
+							"variable": [
+								{
+									"key": "salesId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Follow Up",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{solar_kita}}/leads/followup/:leadsId",
+							"host": [
+								"{{solar_kita}}"
+							],
+							"path": [
+								"leads",
+								"followup",
+								":leadsId"
+							],
+							"variable": [
+								{
+									"key": "leadsId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Follow Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"leads_id\": 3,\r\n    \"follow_up_message\": \"Menunggu balasan dari client\",\r\n    \"follow_up_result\": \"-\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/leads/followup"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leads Status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{solar_kita}}/leads/status/:leadsId",
+							"host": [
+								"{{solar_kita}}"
+							],
+							"path": [
+								"leads",
+								"status",
+								":leadsId"
+							],
+							"variable": [
+								{
+									"key": "leadsId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Leads Status",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{solar_kita}}/leads/status/:leadsId",
+									"host": [
+										"{{solar_kita}}"
+									],
+									"path": [
+										"leads",
+										"status",
+										":leadsId"
+									],
+									"variable": [
+										{
+											"key": "leadsId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Update Status\",\r\n    \"data\": {\r\n        \"leadsId\": \"2\",\r\n        \"status\": 2\r\n    },\r\n    \"error\": null\r\n}"
+						},
+						{
+							"name": "Jika Status diupdate ke 7",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": 7\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{solar_kita}}/leads/status/:leadsId",
+									"host": [
+										"{{solar_kita}}"
+									],
+									"path": [
+										"leads",
+										"status",
+										":leadsId"
+									],
+									"variable": [
+										{
+											"key": "leadsId",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Update Status\",\r\n    \"data\": {\r\n        \"leadsId\": \"5\",\r\n        \"status\": 7,\r\n        \"notes\": \"User test@mail.com has been created\"\r\n    },\r\n    \"error\": null\r\n}"
+						},
+						{
+							"name": "Jika Status diupdate ke 7 Namun User Sudah Ada",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": 7\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{solar_kita}}/leads/status/:leadsId",
+									"host": [
+										"{{solar_kita}}"
+									],
+									"path": [
+										"leads",
+										"status",
+										":leadsId"
+									],
+									"variable": [
+										{
+											"key": "leadsId",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success Update Status\",\r\n    \"data\": {\r\n        \"leadsId\": \"5\",\r\n        \"status\": 7,\r\n        \"notes\": \"User test@mail.com has already exists\"\r\n    },\r\n    \"error\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Follow Up Data",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"leads_id\": 5,\r\n    \"follow_up_id\": 10,\r\n    \"follow_up_message\": \"Follow Up Final Proposal\",\r\n    \"follow_up_result\": \"Client telah menyutujui proposal final dari PT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/leads/follow-up"
+					},
+					"response": [
+						{
+							"name": "Update Follow Up",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"leads_id\": 5,\r\n    \"follow_up_id\": 10,\r\n    \"follow_up_message\": \"Follow Up Final Proposal\",\r\n    \"follow_up_result\": \"Client telah menyutujui proposal final dari PT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{solar_kita}}/leads/follow-up"
+							},
+							"_postman_previewlanguage": "",
+							"header": [
+								{}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\r\n    \"status\": 200,\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"leads_id\": 5,\r\n        \"follow_up_id\": 10,\r\n        \"follow_up_message\": \"Follow Up Final Proposal\",\r\n        \"follow_up_result\": \"Client telah menyutujui proposal final dari PT\"\r\n    },\r\n    \"error\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Survey Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"leads_id\": 5,\r\n    \"survey_request_notes\": \"<b>survey notes</b>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/survey"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Master",
+			"item": [
+				{
+					"name": "Get Status Master",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Operational",
+			"item": [
+				{
+					"name": "Approve Disapprove Survey",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"survey_id\": 5,\r\n    \"status\": \"Accepted\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{solar_kita}}/survey/status"
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Survey Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1ef1b0a9-d850-4c60-9a8d-cdb71321beae"
+								},
+								{
+									"key": "survey_result_notes",
+									"value": "TESETEST",
+									"type": "text"
+								},
+								{
+									"key": "survey_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{solar_kita}}/survey/complete"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
