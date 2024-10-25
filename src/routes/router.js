@@ -23,6 +23,10 @@ const {
     putCompleteSurveyRequest
 } = require("../controller/SurveyController");
 
+const {
+    putSuspendSales
+} = require("../controller/InternalsController");
+
 
 // Tentukan penyimpanan file dan direktori penyimpanan
 const storage = multer.diskStorage({
@@ -53,5 +57,7 @@ router.put('/leads/follow-up', putUpdateFollowUp);
 router.post('/survey', createSurveyRequest);
 router.put('/survey/status', putApproveDisapproveRequest)
 router.put('/survey/complete', upload.single('image'), putCompleteSurveyRequest)
+
+router.put('/sales/suspend', putSuspendSales)
 
 module.exports = router;
